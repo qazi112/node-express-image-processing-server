@@ -30,9 +30,10 @@ const upload = multer({
 
 
 
-// Routes
+// Routes   
 router.post("/upload", upload.single("photo"), (req, res) => {
-    if(req.fileValidationError){
+    if(Object.keys(req))
+    if('fileValidationError' in req){
         res.status(400).json({error: req.fileValidationError})
     }else{
         res.status(201).json({success: true})
