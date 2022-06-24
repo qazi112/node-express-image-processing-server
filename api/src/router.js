@@ -1,5 +1,5 @@
 const { Router } = require("express")
-
+const router = Router()
 // Using multer diskstorage()
 const multer = require("multer")
 
@@ -10,7 +10,7 @@ const options = {
 
 const storage = multer.diskStorage(options)
 
-const router = Router()
+
 
 function filename(request, file, callback){
     callback(null, file.orignalName)
