@@ -11,5 +11,6 @@ app.use("/*", (req, res) => {
     res.sendFile(pathToIdex)
 })
 
+app.listen(3000)
 module.exports = app
 
