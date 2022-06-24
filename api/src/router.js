@@ -4,7 +4,7 @@ const multer = require("multer")
 
 
 function filename(request, file, callback){
-    callback(null, file.orignalName)
+    callback(null, file.originalname)
 }
 
 const options = {
