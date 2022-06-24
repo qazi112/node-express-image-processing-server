@@ -1,7 +1,11 @@
 const { Router } = require("express")
 const router = Router()
-// Using multer diskstorage()
 const multer = require("multer")
+
+
+function filename(request, file, callback){
+    callback(null, file.orignalName)
+}
 
 const options = {
     destination : "api/uploads/",
@@ -9,12 +13,6 @@ const options = {
 }
 
 const storage = multer.diskStorage(options)
-
-
-
-function filename(request, file, callback){
-    callback(null, file.orignalName)
-}
 
 const fileFilter = (request, file, callback) => {
     if( file.mimetype === "image/png"){
