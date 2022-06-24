@@ -67,3 +67,5 @@ package-lock.json
 # uploads
 api/uploads
 
+.DS_STORE
+api/.DS_STORE
