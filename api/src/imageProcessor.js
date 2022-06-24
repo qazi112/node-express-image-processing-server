@@ -15,8 +15,9 @@ const imageProcessor = (filename) => {
         const monochromeDestination = uploadPathResolver("monochrome-" + filename)
 
         if (isMainThread) {
+            console.log("In mian thread")
             try {
-                const resizeWorker = Worker(pathToResizeWorker, {
+                const resizeWorker = new Worker(pathToResizeWorker, {
                     workerData: {
                         source: sourcePath,
                         destination: resizedDestination
@@ -26,33 +27,39 @@ const imageProcessor = (filename) => {
                 var monochromeWorkerFinished = false;
 
                 // resizeWroker thread events
-
+                
                 resizeWorker.on("message", (message) => {
                     resizeWorkerFinished = true
-                    if (monochromeWorkerFinished) {
+                    if (monochromeWorkerFinished == true) {
+                        console.log("resolved resized")
                         resolve("resizeWorker finished processing")
                     }
-                }).on("error", (error) => {
-                    reject(new Error(error.message))
                 })
-                const monochromeWorker = Worker(pathToMonochromeWorker, {
+                resizeWorker.on("error", (error) => {
+                    reject(new Error(error.message))
+                }).on("exit", (code) => {
+                    if(code !== 0){
+                        reject(new Error("Exited with code "+code))
+                    }
+                })
+
+                const monochromeWorker = new Worker(pathToMonochromeWorker, {
                     workerData: {
                         source: sourcePath,
                         destination: monochromeDestination
-                    }
-                }).on("exit", (code) => {
-                    if (code !== 0) {
-                        reject(new Error(`Exited wit the status code: ${code}`));
                     }
                 })
 
                 // MonochromeWorker thread events
                 monochromeWorker.on("messsage", (message) => {
+                    console.log(message)
                     monochromeWorkerFinished = true;
-                    if (resizeWorkerFinished) {
+                    if (resizeWorkerFinished == true) {
+                        console.log("resolved monochrome")
                         resolve("monochromeWorker finished processing")
                     }
                 }).on("error", (error)=>{
+                    
                     reject(new Error(error.message))
 
                 }).on("exit", (code) => {
@@ -61,6 +68,7 @@ const imageProcessor = (filename) => {
                     }
                 })
             } catch (error) {
+                console.log("error try catch, image")
                 reject(error)
             }
 

@@ -39,9 +39,11 @@ router.route("/upload")
         return res.status(400).json({error: req.fileValidationError})
     }
     try {
+
       await imageProcessor(req.file.filename)
-    } catch (error) {
       
+    } catch (error) {
+      console.log("error: "+error.message)
     }
     return res.status(201).json({success: true})
   })
