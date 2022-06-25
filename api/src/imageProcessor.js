@@ -68,7 +68,7 @@ function imageProcessor(filename){
                 monochromeWorker.on("exit", (code) => {
                     if(code !== 0){
                         reject("Exited with status code "+code)
-                    }
+                    } 
                 })
             } catch (error) {
                 reject(error)
