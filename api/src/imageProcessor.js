@@ -53,12 +53,6 @@ function imageProcessor(filename){
                 })
 
                 // monochromeListeners
-                monochromeWorker.on('exit', (code) => {
-                    if(code !== 0){
-                        reject('Exited with status code '+code)
-                    }
-                })
-                
                 monochromeWorker.on("message", (message) => {
                     monochromeWorkerFinished = true;
                     if(resizeWorkerFinished){
@@ -68,7 +62,11 @@ function imageProcessor(filename){
                 monochromeWorker.on("error", (error) => {
                     reject(new Error(error.message))
                 })
-                
+                monochromeWorker.on("exit", (code) => {
+                    if(code !== 0){
+                        reject(new Error("Exited with status code "+code));
+                    }
+                })
             } catch (error) {
                 reject(error)
             }        
