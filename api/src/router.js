@@ -40,7 +40,6 @@ router.route("/upload")
     }
     try {
       const resolved = await imageProcessor(req.file.filename) 
-      console.log(resolved)
       res.status(201).json({success: true})
 
     } catch (error) {
