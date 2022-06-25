@@ -54,3 +54,7 @@ router.route("/photo-viewer")
       res.sendFile(photoPath)
   })
 module.exports = router
+
+
+
+// Multer is used to upload file from HTML form
