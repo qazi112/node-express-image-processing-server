@@ -50,9 +50,6 @@ function imageProcessor(filename){
                     if(code !== 0){
                         reject(new Error("Exited with status code "+code));
                     }
-                    else{
-                        console.log("handled, "+code)
-                    }
                 })
 
                 // monochromeListeners
